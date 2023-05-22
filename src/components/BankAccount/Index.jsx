@@ -6,7 +6,10 @@ export const BankAccount = ({ title, amount, balance }) => {
         <section class="account">
             <div class="account-content-wrapper">
                 <h3 class="account-title">{title}</h3>
-                <p class="account-amount">${amount}</p>
+                <p class="account-amount">{new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD"
+                }).format(amount)}</p>
                 <p class="account-amount-description">{balance} Balance</p>
             </div>
             <div class="account-content-wrapper cta">
