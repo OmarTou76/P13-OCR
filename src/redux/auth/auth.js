@@ -28,4 +28,4 @@ const auth = createSlice({
     }
 })
 
-export const { reducer } = auth
+export const { reducer: authReducer } = auth
