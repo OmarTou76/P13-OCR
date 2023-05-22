@@ -6,7 +6,7 @@ export const transactions = [
     },
     {
         title: "Argent Bank Savings (x6712)",
-        amount: 10928.79,
+        amount: 10928.42,
         balance: "Available",
     },
     {
