@@ -3,17 +3,17 @@ import './bankAccount.css'
 
 export const BankAccount = ({ title, amount, balance }) => {
     return (
-        <section class="account">
-            <div class="account-content-wrapper">
-                <h3 class="account-title">{title}</h3>
-                <p class="account-amount">{new Intl.NumberFormat("en-US", {
+        <section className="account">
+            <div className="account-content-wrapper">
+                <h3 className="account-title">{title}</h3>
+                <p className="account-amount">{new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD"
                 }).format(amount)}</p>
-                <p class="account-amount-description">{balance} Balance</p>
+                <p className="account-amount-description">{balance} Balance</p>
             </div>
-            <div class="account-content-wrapper cta">
-                <button class="transaction-button">View transactions</button>
+            <div className="account-content-wrapper cta">
+                <button className="transaction-button">View transactions</button>
             </div>
         </section>
     )
