@@ -55,3 +55,8 @@
     font-size: 1.2rem;
   }
   
+  .display-error {
+    width: 100%;
+    text-align: start;
+    color: red;
+  }
