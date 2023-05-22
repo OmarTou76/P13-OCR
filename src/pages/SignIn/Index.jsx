@@ -1,5 +1,6 @@
 import React from 'react'
 import './signIn.css'
+import { Link } from 'react-router-dom'
 
 export const SignIn = () => {
     return (
@@ -21,7 +22,9 @@ export const SignIn = () => {
                         <label htmlFor="remember-me">Remember me</label>
                     </div>
                     <button className='sign-in-button'>
-                        Sign In
+                        <Link to="/user">
+                            Sign In
+                        </Link>
                     </button>
                 </form>
             </section>
