@@ -4,6 +4,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './app.css'
 import { Footer } from './components/Footer/Index'
 import { SignIn } from './pages/SignIn/Index'
+import { User } from './pages/User/Index'
 
 export const App = () => {
     const router = createBrowserRouter([
@@ -21,7 +22,11 @@ export const App = () => {
                 {
                     path: "signIn",
                     element: <SignIn />
-                }
+                },
+                {
+                    path: "user",
+                    element: <User />
+                },
             ]
         }
     ])
