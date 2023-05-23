@@ -26,11 +26,11 @@ export const Header = () => {
                             <i className="fa fa-user-circle"></i>
                             {data.firstName}
                         </Link>
-                        <Link to="/signIn" className="main-nav-item" onClick={() => {
+                        <Link className="main-nav-item" onClick={() => {
                             dispatch(removeUser())
                             dispatch(logout())
                         }}>
-                            <i class="fa fa-sign-out"></i>
+                            <i className="fa fa-sign-out"></i>
                             Sign Out
                         </Link>
                     </>
