@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router'
 
 export const SignIn = () => {
     const { status, token, error } = useSelector(state => state.auth)
+    const { isLogged } = useSelector(state => state.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -22,13 +23,14 @@ export const SignIn = () => {
 
     useEffect(() => {
         if (status === 'resolved' && token) {
-            dispatch(getUser({ token })).then(({ type }) => {
+            dispatch(getUser()).then(({ type }) => {
                 if (type === "user/getUser/fulfilled") {
                     navigate('/user')
+                    return
                 }
             })
         }
-    }, [token, status, dispatch, navigate])
+    }, [token, status, dispatch, navigate, isLogged])
 
     return (
         <main className="main bg-dark">
