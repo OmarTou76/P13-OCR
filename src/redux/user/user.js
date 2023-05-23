@@ -3,8 +3,8 @@ import { getUser } from "./actions"
 
 const initialState = {
     isLogged: false,
-    data: null,
     isLoading: false,
+    data: null,
     error: null
 }
 
@@ -12,12 +12,12 @@ const getUserProfil = createSlice({
     name: "user",
     initialState,
     reducers: {
-        removeUser: (state) => {
+        removeUser: state => {
             state = initialState
             return state
         }
     },
-    extraReducers: (builder) => {
+    extraReducers: builder => {
         builder
             .addCase(getUser.pending, state => {
                 state.isLoading = true
@@ -36,4 +36,4 @@ const getUserProfil = createSlice({
 
 export const { reducer: userReducer } = getUserProfil
 
-export const { removeUser } = getUserProfil.actions
+export const { removeUser, setEditing } = getUserProfil.actions
