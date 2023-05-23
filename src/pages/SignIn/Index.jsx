@@ -1,13 +1,14 @@
-import React from 'react'
+import { useEffect } from "react"
 import './signIn.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/auth/actions'
+import { getUser } from '../../redux/user/actions'
+import { useNavigate } from 'react-router'
 
 export const SignIn = () => {
-    const auth = useSelector(state => state.auth)
+    const { status, token, error } = useSelector(state => state.auth)
     const dispatch = useDispatch()
-
-    //console.log(auth)
+    const navigate = useNavigate()
 
     const handleForm = (e) => {
         e.preventDefault()
@@ -18,6 +19,16 @@ export const SignIn = () => {
         }
         dispatch(login(form))
     }
+
+    useEffect(() => {
+        if (status === 'resolved' && token) {
+            dispatch(getUser({ token })).then(({ type }) => {
+                if (type === "user/getUser/fulfilled") {
+                    navigate('/user')
+                }
+            })
+        }
+    }, [token, status, dispatch, navigate])
 
     return (
         <main className="main bg-dark">
@@ -37,6 +48,7 @@ export const SignIn = () => {
                         <input type="checkbox" id="remember-me" />
                         <label htmlFor="remember-me">Remember me</label>
                     </div>
+                    {status === "rejected" && <p className="display-error">{error}</p>}
                     <input type='submit' className='sign-in-button' value="Sign In" />
                 </form>
             </section>
