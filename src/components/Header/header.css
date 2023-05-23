@@ -13,6 +13,11 @@
   .main-nav a.router-link-exact-active {
     color: #42b983;
   }
+
+  .main-nav-user {
+    display: flex;
+    gap: .5rem;
+  }
   
   .main-nav-item {
     text-decoration: none;
