@@ -1,28 +1,34 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { logout } from "../auth/auth";
+import { get_fetching, get_rejected, get_resolved } from "./user";
 const USER_INFO_URL = "http://localhost:3001/api/v1/user/profile"
 
-export const getUser = createAsyncThunk(
-    'user/getUser',
-    async (arg, { getState, rejectWithValue, dispatch }) => {
+export const fetchOrUpdateUser = () => {
+    return async (dispatch, getState) => {
+        const { status } = getState().user
+        const token = getState().auth.token
+        if (status === "pending" || status === "updating" || !token) {
+            return
+        }
+        dispatch(get_fetching())
         try {
             const response = await fetch(USER_INFO_URL, {
                 headers: {
                     "Content-Type": 'application/json',
-                    "Authorization": `Bearer ${getState().auth.token}`
+                    "Authorization": `Bearer ${token}`
                 },
                 method: "POST",
             })
             const data = await response.json()
             if (!response.ok) throw new Error(data.message)
-            return data.body
+            dispatch(get_resolved(data.body))
         } catch (error) {
             dispatch(logout({ error: error.message }))
             localStorage.removeItem('userToken')
-            return rejectWithValue(error.message)
+            dispatch(get_rejected(error.message))
         }
     }
-)
+}
 
 export const userEditor = createAsyncThunk(
     'editUser/editUser',
@@ -44,7 +50,7 @@ export const userEditor = createAsyncThunk(
 
             if (!response.ok) throw new Error(data.message)
 
-            dispatch(getUser())
+            //dispatch(getUser())
 
             return data.body
         } catch (error) {

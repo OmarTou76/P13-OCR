@@ -1,10 +1,10 @@
 import { RouterProvider } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { router } from './router'
-import { getUser } from './redux/user/actions'
 import { saveToken } from './redux/auth/auth'
 import './app.css'
 import { useEffect } from 'react'
+import { fetchOrUpdateUser } from './redux/user/actions'
 
 export const App = () => {
     const { isLogged, isLoading } = useSelector(state => state.user)
@@ -18,11 +18,10 @@ export const App = () => {
     }
 
     useEffect(() => {
-        if (status === "resolved" && !isLoading) {
-            dispatch(getUser())
-        }
 
-    }, [status, dispatch])
+        dispatch(fetchOrUpdateUser())
+
+    }, [dispatch])
 
     return (
         <RouterProvider router={router} />
