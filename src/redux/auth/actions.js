@@ -25,5 +25,10 @@ export const login = createAsyncThunk(
         } catch (error) {
             return rejectWithValue(error.message)
         }
+    },
+    {
+        condition: (arg, { getState }) => {
+            if (getState().auth.status === "pending") return false
+        }
     }
 )
