@@ -7,21 +7,21 @@ import { useEffect } from 'react'
 import { fetchOrUpdateUser } from './redux/user/actions'
 
 export const App = () => {
-    const { isLogged, isLoading } = useSelector(state => state.user)
-    const { status } = useSelector(state => state.auth)
+    const user = useSelector(state => state.user)
+    const auth = useSelector(state => state.auth)
     const dispatch = useDispatch()
 
     const token = JSON.parse(localStorage.getItem('userToken'))
 
-    if (token && status !== 'resolved' && !isLogged) {
+    if (token && auth.status !== 'resolved' && !user.isLogged) {
         dispatch(saveToken({ token }))
     }
 
     useEffect(() => {
-
-        dispatch(fetchOrUpdateUser())
-
-    }, [dispatch])
+        if (auth.status === "resolved" && !user.isLogged) {
+            dispatch(fetchOrUpdateUser())
+        }
+    }, [dispatch, auth, user])
 
     return (
         <RouterProvider router={router} />

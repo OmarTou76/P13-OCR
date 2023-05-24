@@ -7,9 +7,7 @@ export const fetchOrUpdateUser = () => {
     return async (dispatch, getState) => {
         const { status } = getState().user
         const token = getState().auth.token
-        if (status === "pending" || status === "updating" || !token) {
-            return
-        }
+        if (status === "pending" || status === "updating" || !token) return
         dispatch(get_fetching())
         try {
             const response = await fetch(USER_INFO_URL, {
@@ -50,7 +48,7 @@ export const userEditor = createAsyncThunk(
 
             if (!response.ok) throw new Error(data.message)
 
-            //dispatch(getUser())
+            dispatch(fetchOrUpdateUser())
 
             return data.body
         } catch (error) {

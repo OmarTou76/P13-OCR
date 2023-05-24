@@ -1,10 +1,13 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { get_fetching, get_resolved, get_rejected } from './auth'
 
 const LOGIN_URL = "http://localhost:3001/api/v1/user/login"
 
-export const login = createAsyncThunk(
-    'auth/login',
-    async ({ email, password, remember }, { rejectWithValue }) => {
+export const getOrUpdateToken = ({ email, password, remember }) => {
+    return async (dispatch, getState) => {
+        const { status } = getState().auth
+        if (status === "pending" || status === "updating") return
+
+        dispatch(get_fetching())
         try {
             const response = await fetch(LOGIN_URL, {
                 headers: {
@@ -21,9 +24,9 @@ export const login = createAsyncThunk(
             if (remember === true) {
                 localStorage.setItem('userToken', JSON.stringify(data.body.token))
             }
-            return data.body
+            dispatch(get_resolved(data.body))
         } catch (error) {
-            return rejectWithValue(error.message)
+            dispatch(get_rejected(error.message))
         }
     }
-)
+}

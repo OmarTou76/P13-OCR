@@ -1,6 +1,6 @@
 import './signIn.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../redux/auth/actions'
+import { getOrUpdateToken } from '../../redux/auth/actions'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -16,7 +16,7 @@ export const SignIn = () => {
             password: e.target[1].value,
             remember: e.target[2].checked
         }
-        dispatch(login(form))
+        dispatch(getOrUpdateToken(form))
     }
 
     useEffect(() => {

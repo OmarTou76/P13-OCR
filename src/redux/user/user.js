@@ -7,8 +7,6 @@ const initialState = {
     error: null
 }
 
-
-
 const getUserProfil = createSlice({
     name: "user",
     initialState,

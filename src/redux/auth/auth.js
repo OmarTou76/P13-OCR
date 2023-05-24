@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { login } from "./actions"
 
 const initialState = {
     status: "void",
@@ -20,24 +19,44 @@ const auth = createSlice({
             state.status = "resolved"
             state.token = payload.token
             state.error = null
-        }
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(login.pending, state => {
+        },
+
+        get_fetching: state => {
+            if (state.status === "void") {
                 state.status = "pending"
+                return
+            }
+            if (state.status === "rejected") {
                 state.error = null
-            })
-            .addCase(login.fulfilled, (state, { payload }) => {
-                state.status = "resolved"
+                state.status = "pending"
+                state.token = null
+                return
+            }
+            if (state.status === "resolved") {
+                state.status = "updating"
+                return
+            }
+            return
+        },
+        get_resolved: (state, { payload }) => {
+            if (state.status === "pending" || state.status === "updating") {
                 state.token = payload.token
-            })
-            .addCase(login.rejected, (state, { payload }) => {
+                state.status = "resolved"
+                return
+            }
+            return
+        },
+        get_rejected: (state, { payload }) => {
+            if (state.status === "pending" || state.status === "updating") {
                 state.status = "rejected"
                 state.error = payload
-            })
+                state.token = null
+                return
+            }
+            return
+        }
     }
 })
 
 export const { reducer: authReducer } = auth
-export const { logout, saveToken } = auth.actions
+export const { logout, saveToken, get_fetching, get_rejected, get_resolved } = auth.actions
