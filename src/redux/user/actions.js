@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { logout } from "../auth/auth";
 const USER_INFO_URL = "http://localhost:3001/api/v1/user/profile"
 
 export const getUser = createAsyncThunk(
     'user/getUser',
-    async (arg, { getState, rejectWithValue }) => {
+    async (arg, { getState, rejectWithValue, dispatch }) => {
         try {
             const response = await fetch(USER_INFO_URL, {
                 headers: {
@@ -16,6 +17,8 @@ export const getUser = createAsyncThunk(
             if (!response.ok) throw new Error(data.message)
             return data.body
         } catch (error) {
+            dispatch(logout({ error: error.message }))
+            localStorage.removeItem('userToken')
             return rejectWithValue(error.message)
         }
     }

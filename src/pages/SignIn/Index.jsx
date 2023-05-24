@@ -1,16 +1,14 @@
-import { useEffect } from "react"
 import './signIn.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/auth/actions'
-import { getUser } from '../../redux/user/actions'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 
 export const SignIn = () => {
-    const { status, token, error } = useSelector(state => state.auth)
+    const { status, error } = useSelector(state => state.auth)
     const { isLogged } = useSelector(state => state.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
     const handleForm = (e) => {
         e.preventDefault()
         const form = {
@@ -22,15 +20,10 @@ export const SignIn = () => {
     }
 
     useEffect(() => {
-        if (status === 'resolved' && token) {
-            dispatch(getUser()).then(({ type }) => {
-                if (type === "user/getUser/fulfilled") {
-                    navigate('/user')
-                    return
-                }
-            })
+        if (isLogged) {
+            return navigate('/user')
         }
-    }, [token, status, dispatch, navigate, isLogged])
+    }, [isLogged, navigate])
 
     return (
         <main className="main bg-dark">

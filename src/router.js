@@ -4,6 +4,7 @@ import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { Footer } from './components/Footer/Index'
 import { SignIn } from './pages/SignIn/Index'
 import { User } from './pages/User/Index'
+
 export const router = createBrowserRouter([
     {
         element: <>

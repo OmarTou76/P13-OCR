@@ -1,23 +1,28 @@
 import { RouterProvider } from 'react-router-dom'
-import './app.css'
-import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { router } from './router'
 import { getUser } from './redux/user/actions'
 import { saveToken } from './redux/auth/auth'
+import './app.css'
+import { useEffect } from 'react'
 
 export const App = () => {
-    const { isLogged } = useSelector(state => state.user)
+    const { isLogged, isLoading } = useSelector(state => state.user)
+    const { status } = useSelector(state => state.auth)
     const dispatch = useDispatch()
 
+    const token = JSON.parse(localStorage.getItem('userToken'))
+
+    if (token && status !== 'resolved' && !isLogged) {
+        dispatch(saveToken({ token }))
+    }
 
     useEffect(() => {
-        const token = JSON.parse(localStorage.getItem('userToken'))
-        if (!isLogged && token) {
-            dispatch(saveToken({ token }))
+        if (status === "resolved" && !isLoading) {
             dispatch(getUser())
         }
-    }, [isLogged, dispatch])
+
+    }, [status, dispatch])
 
     return (
         <RouterProvider router={router} />

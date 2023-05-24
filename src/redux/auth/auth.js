@@ -11,13 +11,14 @@ const auth = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        logout: state => {
-            state = initialState
-            return state
+        logout: (state, { payload }) => {
+            state.status = "void"
+            state.token = null
+            state.error = payload.error ?? null
         },
         saveToken: (state, { payload }) => {
-            state.token = payload.token
             state.status = "resolved"
+            state.token = payload.token
             state.error = null
         }
     },
