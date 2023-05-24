@@ -21,8 +21,16 @@ export const getUser = createAsyncThunk(
             localStorage.removeItem('userToken')
             return rejectWithValue(error.message)
         }
+    },
+    {
+        condition: (arg, { getState }) => {
+            if (getState().user.isLoading) {
+                return false
+            }
+        }
     }
 )
+
 
 export const userEditor = createAsyncThunk(
     'editUser/editUser',
