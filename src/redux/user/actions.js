@@ -52,6 +52,7 @@ export const userEditor = createAsyncThunk(
 
             return data.body
         } catch (error) {
+            dispatch(fetchOrUpdateUser())
             return rejectWithValue(error.message)
         }
     }
