@@ -2,7 +2,7 @@ import { RouterProvider } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { router } from './router'
 import { getUser } from './redux/user/actions'
-import { saveToken } from './redux/auth/auth'
+import { getTokenFromStorage } from './redux/auth/auth'
 import './app.css'
 import { useEffect } from 'react'
 
@@ -14,15 +14,14 @@ export const App = () => {
     const token = JSON.parse(localStorage.getItem('userToken'))
 
     if (token && status !== 'resolved' && !isLogged) {
-        dispatch(saveToken({ token }))
+        dispatch(getTokenFromStorage({ token }))
     }
 
     useEffect(() => {
-        if (status === "resolved" && !isLoading) {
+        if (status === "resolved" && !isLoading && !isLogged) {
             dispatch(getUser())
         }
-
-    }, [status, dispatch])
+    }, [status, dispatch, isLoading, isLogged])
 
     return (
         <RouterProvider router={router} />

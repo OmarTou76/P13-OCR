@@ -16,7 +16,7 @@ const auth = createSlice({
             state.token = null
             state.error = payload.error ?? null
         },
-        saveToken: (state, { payload }) => {
+        getTokenFromStorage: (state, { payload }) => {
             state.status = "resolved"
             state.token = payload.token
             state.error = null
@@ -40,4 +40,4 @@ const auth = createSlice({
 })
 
 export const { reducer: authReducer } = auth
-export const { logout, saveToken } = auth.actions
+export const { logout, getTokenFromStorage } = auth.actions
