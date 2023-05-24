@@ -29,6 +29,7 @@ export const Header = () => {
                         <Link className="main-nav-item" onClick={() => {
                             dispatch(removeUser())
                             dispatch(logout())
+                            localStorage.removeItem('userToken')
                         }}>
                             <i className="fa fa-sign-out"></i>
                             Sign Out

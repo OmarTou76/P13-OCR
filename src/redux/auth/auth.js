@@ -11,9 +11,14 @@ const auth = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        logout: (state) => {
+        logout: state => {
             state = initialState
             return state
+        },
+        saveToken: (state, { payload }) => {
+            state.token = payload.token
+            state.status = "resolved"
+            state.error = null
         }
     },
     extraReducers: (builder) => {
@@ -34,4 +39,4 @@ const auth = createSlice({
 })
 
 export const { reducer: authReducer } = auth
-export const { logout } = auth.actions
+export const { logout, saveToken } = auth.actions

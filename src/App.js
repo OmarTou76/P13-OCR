@@ -1,35 +1,24 @@
-import { Header } from './components/Header'
-import { Homepage } from './pages/Homepage'
-import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider } from 'react-router-dom'
 import './app.css'
-import { Footer } from './components/Footer/Index'
-import { SignIn } from './pages/SignIn/Index'
-import { User } from './pages/User/Index'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { router } from './router'
+import { getUser } from './redux/user/actions'
+import { saveToken } from './redux/auth/auth'
 
 export const App = () => {
-    const router = createBrowserRouter([
-        {
-            element: <>
-                <Header />
-                <Outlet />
-                <Footer />
-            </>,
-            children: [
-                {
-                    path: "/",
-                    element: <Homepage />
-                },
-                {
-                    path: "signIn",
-                    element: <SignIn />
-                },
-                {
-                    path: "user",
-                    element: <User />
-                },
-            ]
+    const { isLogged } = useSelector(state => state.user)
+    const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        const token = JSON.parse(localStorage.getItem('userToken'))
+        if (!isLogged && token) {
+            dispatch(saveToken({ token }))
+            dispatch(getUser())
         }
-    ])
+    }, [isLogged, dispatch])
+
     return (
         <RouterProvider router={router} />
     )
