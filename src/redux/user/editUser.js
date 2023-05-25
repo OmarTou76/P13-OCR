@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { userEditor } from "./actions"
 
-
 const initialState = {
     isLoading: false,
     isEditingUser: false,
