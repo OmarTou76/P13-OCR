@@ -32,9 +32,9 @@ export const getUser = createAsyncThunk(
 )
 
 
-export const userEditor = createAsyncThunk(
-    'editUser/editUser',
-    async (editedUserData, { getState, rejectWithValue, dispatch }) => {
+export const editUser = createAsyncThunk(
+    'user/editUser',
+    async (editedUserData, { getState, rejectWithValue }) => {
 
         try {
             const response = await fetch(USER_INFO_URL, {
@@ -52,11 +52,16 @@ export const userEditor = createAsyncThunk(
 
             if (!response.ok) throw new Error(data.message)
 
-            dispatch(getUser())
-
             return data.body
         } catch (error) {
             return rejectWithValue(error.message)
+        }
+    },
+    {
+        condition: (arg, { getState }) => {
+            if (getState().user.isLoading) {
+                return false
+            }
         }
     }
 )

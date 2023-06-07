@@ -4,12 +4,12 @@ import { transactions } from '../../data/transactions'
 import { BankAccount } from '../../components/BankAccount/Index'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
-import { setEditingState } from '../../redux/user/editUser'
-import { userEditor } from '../../redux/user/actions'
+import { setEditingState } from '../../redux/user/user'
+import { editUser } from '../../redux/user/actions'
 
 export const User = () => {
     const { data, isLogged } = useSelector(state => state.user)
-    const { isEditingUser, error } = useSelector(state => state.userEdit)
+    const { isEditingUser, error } = useSelector(state => state.user)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -18,7 +18,7 @@ export const User = () => {
         if (!isEditingUser) return dispatch(setEditingState())
         const firstName = document.getElementById('firstName').value ? document.getElementById('firstName').value : data?.firstName
         const lastName = document.getElementById('lastName').value ? document.getElementById('lastName').value : data?.lastName
-        dispatch(userEditor({ firstName, lastName }))
+        dispatch(editUser({ firstName, lastName }))
     }
 
     useEffect(() => {

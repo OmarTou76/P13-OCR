@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getUser } from "./actions"
+import { editUser, getUser } from "./actions"
 
 const initialState = {
     isLogged: false,
@@ -15,6 +15,9 @@ const getUserProfil = createSlice({
         removeUser: state => {
             state = initialState
             return state
+        },
+        setEditingState: (state) => {
+            state.isEditingUser = !state.isEditingUser
         }
     },
     extraReducers: builder => {
@@ -31,9 +34,21 @@ const getUserProfil = createSlice({
                 state.isLoading = false
                 state.error = payload
             })
+            .addCase(editUser.pending, state => {
+                state.isLoading = true
+            })
+            .addCase(editUser.fulfilled, (state, { payload }) => {
+                state.isLoading = false
+                state.isEditingUser = false
+                state.data = payload
+            })
+            .addCase(editUser.rejected, (state, { payload }) => {
+                state.isLoading = false
+                state.error = payload
+            })
     }
 })
 
 export const { reducer: userReducer } = getUserProfil
 
-export const { removeUser, setEditing } = getUserProfil.actions
+export const { removeUser, setEditingState } = getUserProfil.actions
