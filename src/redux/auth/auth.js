@@ -11,10 +11,9 @@ const auth = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        logout: (state, { payload }) => {
+        logout: state => {
             state.status = "void"
             state.token = null
-            state.error = payload.error ?? null
         },
         getTokenFromStorage: (state, { payload }) => {
             state.status = "resolved"

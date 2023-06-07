@@ -13,8 +13,10 @@ const getUserProfil = createSlice({
     initialState,
     reducers: {
         removeUser: state => {
-            state = initialState
-            return state
+            state.isLogged = false
+            state.isLoading = false
+            state.data = null
+            state.error = null
         },
         setEditingState: (state) => {
             state.isEditingUser = !state.isEditingUser

@@ -8,8 +8,7 @@ import { setEditingState } from '../../redux/user/user'
 import { editUser } from '../../redux/user/actions'
 
 export const User = () => {
-    const { data, isLogged } = useSelector(state => state.user)
-    const { isEditingUser, error } = useSelector(state => state.user)
+    const { data, isLogged, isEditingUser, error } = useSelector(state => state.user)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
